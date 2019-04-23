@@ -1,122 +1,96 @@
-const axios = require('axios');
+const axios = require('axios')
+const moment = require('moment')
+const OWM_APPID = '253e1dbbf0342d7e278b02a28f23a002'
+const GOOGLE_API_KEY = 'AIzaSyDfuUQEUeXnZz2y12iSr0s-Pf-5uXQv3i0'
+let debug =  String(process.argv.slice(2,3)) === 'true' ? true : false;
 
+//viewig command line arguments
 process.argv.forEach((val, index) => {
   console.log(`${index}: ${val}`)
 })
 
-const args = process.argv.slice(2);
+//handling Undhandled Promise Rejections here
+process.on('unhandledRejection', (reason, p) => {
+   console.log('Unhandled Rejection at:', p, 'reason:', reason);
+});
 
 // const inputs = ['New York', 'Santa Barbara', 'Portland', 90405]
-const inputs = ['New York']
+// const inputs = ['New York', 10005, 'Tokyo', 'Sao', 'São Paulo', 'Pluto']
+// const inputs = ['New York']
+const inputs = process.argv.slice(3);
 
 async function getWeather(location) {
   try {
      let res = await axios.get('http://api.openweathermap.org/data/2.5/weather', {
        params: {
          q: location,
-         APPID: '253e1dbbf0342d7e278b02a28f23a002'
+         APPID: OWM_APPID
        }
      });
+     const test = true
+     console.log('test')
+     console.log(test)
+     if(test){
+       console.log('asfdasf')
+       throw new Error('SAFSAFSD')
+     }
      return res.data.weather[0].description
+
  } catch (error) {
-   console.log('error get weather');
-   console.log(error);
-  throw new Error('Something awful happend');
+   console.error(`Error in getWeather for ${location} and the error is`+error);
+   if(debug) console.error(error);
  }
 }
 
 async function getLatLong(location) {
   try {
-     // let res = await axios.get('https://maps.googleapis.com/maps/api/timezone/json?location=38.908133,-77.047119&timestamp=1458000000&key=YOUR_API_KEY', {
        let res = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
        params: {
          address: location,
-         key: 'AIzaSyDfuUQEUeXnZz2y12iSr0s-Pf-5uXQv3i0'
+         key: GOOGLE_API_KEY
        }
      });
-     console.log('res.data');
-     console.log(res.data);
-     console.log('res.data.address_components');
-     console.log(res.data.results[0].address_components);
-     console.log('res.data.types');
-     console.log(res.data.results[0].types);
-     console.log('res.data.results[0].geometry');
-     console.log(res.data.results[0].geometry);
-     return res.data.results[0].geometry;
+     return res.data.results[0].geometry.location;
  } catch (error) {
-   console.log('error getlatlong');
-   console.log(error);
-     throw new Error('Something awful happend');
+   console.error(`Error in getLatLong for ${location} and the error is` + error);
+   if(debug) console.error(error);
  }
 }
 
-// https://maps.googleapis.com/maps/api/timezone/json?location=39.6034810,-119.6822510&timestamp=1331766000&key=YOUR_API_KEY
-
-
 async function getTime(location) {
-  let res = await getLatLong(location);
-  console.log('log RESRESRESRES');
-  console.log(res);
-  let lat = res.location.lat
-  let lng = res.location.lng
-  let locationString = lat+','+lng
-  console.log('locationString');
-  console.log(locationString);
-  // let timestamp = (Math.round((new Date().getTime())/1000)).toString()
-  var targetDate = new Date() // Current date/time of user computer
-var timestamp = targetDate.getTime()/1000 + targetDate.getTimezoneOffset() * 60
-  console.log('timestamp');
-  console.log(timestamp);
+  const timestamp = moment().unix();
+
   try {
-    // https://maps.googleapis.com/maps/api/timezone/outputFormat?parameters
-    // https://maps.googleapis.com/maps/api/timezone/json?location=38.908133,-77.047119&timestamp=1458000000&key=YOUR_API_KEY
-
-     // let res = await axios.get('https://maps.googleapis.com/maps/api/timezone/json?location=38.908133,-77.047119&timestamp=1458000000&key=YOUR_API_KEY', {
-
-       let res = await axios.get('https://maps.googleapis.com/maps/api/timezone/json', {
-       params: {
-         location: locationString,
-         timestamp: timestamp,
-         key: 'AIzaSyDfuUQEUeXnZz2y12iSr0s-Pf-5uXQv3i0'
-       }
+    const {lat, lng} = await getLatLong(location);
+    const locationString = lat+','+lng
+    const res = await axios.get('https://maps.googleapis.com/maps/api/timezone/json', {
+      params: {
+        location: locationString,
+        timestamp: timestamp,
+        key: GOOGLE_API_KEY
+      }
      });
-     console.log('res.data');
-     console.log(res.data);
-     // console.log(res.data.results[0].geometry);
-    //  var offsets = output.dstOffset * 1000 + output.rawOffset * 1000 // get DST and time zone offsets in milliseconds
-    // var localdate = new Date(timestamp * 1000 + offsets) // Date object containing current time of Tokyo (timestamp + dstOffset + rawOffset)
-    //   console.log(localdate.toLocaleString()) // Display current Tokyo date and time
 
-      var offsets = res.data.dstOffset * 1000 + res.data.rawOffset * 1000
-      // get DST and time zone offsets in milliseconds
-     var localdate = new Date(timestamp * 1000 + offsets)
-     // Date object containing current time of Tokyo (timestamp + dstOffset + rawOffset)
-     console.log('localdate.toLocaleString()')
-       console.log(localdate.toLocaleString())
-       // Display current Tokyo date and time
+    const offsets = res.data.dstOffset * 1000 + res.data.rawOffset * 1000
+    const localDate = new Date(timestamp * 1000 + offsets)
 
-     return res.data;
+    return localDate.toLocaleString();
  } catch (error) {
-   console.log('error gettime');
-   console.log(error);
-     throw new Error('Something awful happend');
+   console.error('Error in getTime' + error);
+   if(debug) console.error(error);
  }
 }
 
 function getWeatherAndTime(locations){
   try {
     locations.forEach(async(location)=>{
-        // console.log('Current time is { }');
-        // console.log('in' + location)
-        let time = await getTime(location)
-        console.log('time')
-        console.log(time)
-        let weather = await getWeather(location)
-        console.log(`Current time is {} in ${location} and the weather is super as ${weather}`)
-        return weather
+        const time = await getTime(location)
+        const weather = await getWeather(location)
+        console.log(`Current time is ${time} in ${location} and the weather is ${weather}`);
     })
-  } catch(e){
-    console.log('logging')
+  } catch(error){
+    console.error('Error in getWeatherAndTime and the error is' + error)
+    if(debug) console.error(error)
   }
 };
 
