@@ -4,7 +4,7 @@
   "description": "Code sample for Invisible",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha -r ts-node/register ./*.spec.ts",
     "getWeather": "node -e 'require(\"./invisibleInterview.js\")'"
   },
   "author": "chrismcdermut",
@@ -13,11 +13,17 @@
     "@types/node": "^11.13.5",
     "axios": "^0.18.0",
     "express": "^4.16.4",
+    "lodash": "^4.17.11",
     "moment": "^2.24.0",
-    "ts-node": "^8.1.0",
     "typescript": "^3.4.3"
   },
   "devDependencies": {
-    "eslint": "^5.16.0"
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4",
+    "mocha-sinon": "^2.1.0",
+    "ts-node": "^8.1.0"
   }
 }
