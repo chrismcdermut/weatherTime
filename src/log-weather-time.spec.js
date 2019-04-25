@@ -38,7 +38,7 @@ var _this = this;
 exports.__esModule = true;
 var chai_1 = require("chai");
 require("mocha");
-var invisible_interview_1 = require("./invisible-interview");
+var invisible_interview_1 = require("./log-weather-time");
 describe('Weather function', function () {
     it('should return weather as string', function () { return __awaiter(_this, void 0, void 0, function () {
         var testLocation, result;

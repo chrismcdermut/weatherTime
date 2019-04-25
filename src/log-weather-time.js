@@ -48,7 +48,7 @@ process.on('unhandledRejection', function (reason, p) {
 });
 // Below section is for running file directly using ts-node
 // uncomment last two commented lines: input from process.argv and logWeatherAndTime
-// example(from project root): `ts-node src/invisible-interview.ts false portland
+// example(from project root): `ts-node src/log-weather-time.ts false portland
 // 'new york' 90405 97239 'los angeles'`
 // sample inputs
 // const input = ['New York', 'Santa Barbara', 'Portland', 90405]

@@ -7,7 +7,7 @@ import {
   logWeatherAndTime,
   returnFullTimeWeatherString,
   validateArguments,
-} from './invisible-interview'
+} from './log-weather-time'
 
 describe('Weather function', () => {
 
