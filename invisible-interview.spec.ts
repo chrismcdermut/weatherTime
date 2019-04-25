@@ -1,76 +1,78 @@
-import { expect } from "chai"
-import "mocha"
+import { expect } from 'chai'
+import 'mocha'
 import {
   getLatLong,
   getTime,
   getWeather,
   logWeatherAndTime,
   returnFullTimeWeatherString,
-} from "./invisible-interview"
+  validateArguments,
+} from './invisible-interview'
 
-describe("Weather function", () => {
+describe('Weather function', () => {
 
-  it("should return weather as string", async () => {
-    const testLocation = "New York"
+  it('should return weather as string', async () => {
+    const testLocation = 'New York'
     const result = await getWeather(testLocation)
-    expect(result).to.be.a("string")
+    expect(result).to.be.a('string')
   })
 
 })
 
-describe("Time function", () => {
+describe('Time function', () => {
 
-it("should return time as string", async () => {
-  const testLocation = "New York"
+it('should return time as string', async () => {
+  const testLocation = 'New York'
   const result = await getTime(testLocation)
-  expect(result).to.be.a("string")
+  expect(result).to.be.a('string')
 })
 
 })
 
-describe("LatLong function", () => {
+describe('LatLong function', () => {
 
-it("should return latLong as an object", async () => {
-  const testLocation = "Portland"
+it('should return latLong as an object', async () => {
+  const testLocation = 'Portland'
   const result = await getLatLong(testLocation)
-  expect(result).to.be.an("object")
+  expect(result).to.be.an('object')
 })
 
 })
 
-describe("returnFullTimeWeatherString function", () => {
+describe('returnFullTimeWeatherString function', () => {
 
-it("should return a string", async () => {
-  const testInput = "Santa Monica"
+it('should return a string', async () => {
+  const testInput = 'Santa Monica'
   const result = await returnFullTimeWeatherString(testInput)
-  expect(result).to.be.a("string")
+  expect(result).to.be.a('string')
 })
 
 })
 
-describe("logWeatherAndTime function", () => {
+describe('logWeatherAndTime function', () => {
 
-it("should return log as an array", async () => {
-  const testInput = ["false", "Santa Monica"]
+it('should return log as an array', async () => {
+  const testInput = ['false', 'Santa Monica']
   const result = await logWeatherAndTime(testInput)
-  expect(result).to.be.an("array")
+  expect(result).to.be.an('array')
 })
 
-// it('should require true or false as first argument', () => {
-//   const testInput = ['false', 'New York'];
-//   const result = logWeatherAndTime(testInput);
-//   expect(result).to.be.an('array');
-// });
+})
 
-// it('should throw Error without true or false as first argument', async () => {
-//   const testLocation = ['New York'];
-//   // const model = new logWeatherAndTime();
-//   expect(await logWeatherAndTime(testLocation))
-//   .to.throw(new Error('First method argument must be \'true\' or \'false\'
-//   for debug mode which expands logging and errors'));
-// });
+describe('validateArguments function', () => {
 
-// expect(model.get.bind(model, 'z')).to.throw('Property does not exist in model schema.');
-// expect(model.get.bind(model, 'z')).to.throw(new Error('Property does not exist in model schema.'));
+it('should not throw error with true or false as first argument', () => {
+  const testLocation = ['false', 'New York']
+  expect(() => {validateArguments(testLocation)}).to.not.throw()
+})
+
+//expect.to.throw is having issues
+// it('should throw Error without true or false as first argument', () => {
+//   const testLocation = ['New York']
+//   console.log('LOGGING TYPE')
+//   console.log(typeof validateArguments)
+//   console.log(validateArguments)
+//   expect(() => {validateArguments(testLocation)}).to.throw()
+// })
 
 })

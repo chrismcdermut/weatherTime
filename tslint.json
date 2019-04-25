@@ -9,7 +9,8 @@
       "linebreak-style": [true, "LF"],
       "semicolon": [true, "never"],
       "eofline": true,
-      "no-console": false
+      "no-console": false,
+      "quotemark": [true, "single"]
     },
     "rulesDirectory": []
 }

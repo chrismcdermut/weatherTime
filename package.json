@@ -5,16 +5,18 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha -r ts-node/register ./*.spec.ts",
-    "getWeather": "node -e 'require(\"./invisibleInterview.js\")'"
+    "logWeatherTime": "node -e 'require(\"./invisible-interview.js\").runLogWeatherAndTime()'",
+    "logWeatherTimeDuo": "node -e 'require(\"./invisible-interview.js\").logWeatherAndTime()'",
+    "logWeatherTimeTrio": "run-func ./invisible-interview.js logWeatherAndTime",
   },
   "author": "chrismcdermut",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^11.13.5",
     "axios": "^0.18.0",
-    "express": "^4.16.4",
     "lodash": "^4.17.11",
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "yargs": "^13.2.2"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
@@ -23,6 +25,7 @@
     "eslint": "^5.16.0",
     "mocha": "^6.1.4",
     "mocha-sinon": "^2.1.0",
+    "run-func": "^1.0.2",
     "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
     "typescript": "^3.4.5"
