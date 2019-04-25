@@ -39,8 +39,6 @@ var axios_1 = require("axios");
 var _ = require("lodash");
 var moment = require("moment");
 var yargs_1 = require("yargs");
-// const OWM_APPID = '253e1dbbf0342d7e278b02a28f23a002'
-// const GOOGLE_API_KEY = 'AIzaSyDfuUQEUeXnZz2y12iSr0s-Pf-5uXQv3i0'
 var constants_1 = require("../config/constants");
 var debug = String(process.argv.slice(2, 3)).toLowerCase() === 'true' ? true : false;
 function getWeather(location) {
@@ -52,7 +50,7 @@ function getWeather(location) {
                     _a.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, axios_1["default"].get('http://api.openweathermap.org/data/2.5/weather', {
                             params: {
-                                APPID: constants_1.OWM_APPID,
+                                APPID: constants_1.OWM_AID,
                                 q: location
                             }
                         })];
@@ -82,7 +80,7 @@ function getLatLong(location) {
                     return [4 /*yield*/, axios_1["default"].get('https://maps.googleapis.com/maps/api/geocode/json', {
                             params: {
                                 address: location,
-                                key: constants_1.GOOGLE_API_KEY
+                                key: constants_1.G_A_K
                             }
                         })];
                 case 1:
@@ -115,7 +113,7 @@ function getTime(location) {
                     locationString = lat + ',' + lng;
                     return [4 /*yield*/, axios_1["default"].get('https://maps.googleapis.com/maps/api/timezone/json', {
                             params: {
-                                key: constants_1.GOOGLE_API_KEY,
+                                key: constants_1.G_A_K,
                                 location: locationString,
                                 timestamp: timestamp
                             }

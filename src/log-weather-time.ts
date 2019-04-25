@@ -2,14 +2,14 @@ import axios from 'axios'
 import * as _ from 'lodash'
 import * as moment from 'moment'
 import { argv } from 'yargs'
-import { OWM_APPID, GOOGLE_API_KEY } from '../config/constants';
+import { G_A_K, OWM_AID } from '../config/constants'
 let debug = String(process.argv.slice(2, 3)).toLowerCase() === 'true' ? true : false
 
 export async function getWeather(location: string | number) {
   try {
       const res = await axios.get('http://api.openweathermap.org/data/2.5/weather', {
         params: {
-          APPID: OWM_APPID,
+          APPID: OWM_AID,
           q: location,
         },
       })
@@ -25,7 +25,7 @@ export async function getLatLong(location: string | number) {
         const res = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
         params: {
           address: location,
-          key: GOOGLE_API_KEY,
+          key: G_A_K,
         },
       })
         return _.get(res, 'data.results[0].geometry.location', 'undetermined')
@@ -42,7 +42,7 @@ export async function getTime(location: string | number) {
     const locationString: string = lat + ',' + lng
     const res = await axios.get('https://maps.googleapis.com/maps/api/timezone/json', {
       params: {
-        key: GOOGLE_API_KEY,
+        key: G_A_K,
         location: locationString,
         timestamp,
       },
