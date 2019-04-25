@@ -38,7 +38,7 @@ var _this = this;
 exports.__esModule = true;
 var chai_1 = require("chai");
 require("mocha");
-var invisible_interview_1 = require("./log-weather-time");
+var log_weather_time_1 = require("./log-weather-time");
 describe('Weather function', function () {
     it('should return weather as string', function () { return __awaiter(_this, void 0, void 0, function () {
         var testLocation, result;
@@ -46,7 +46,7 @@ describe('Weather function', function () {
             switch (_a.label) {
                 case 0:
                     testLocation = 'New York';
-                    return [4 /*yield*/, invisible_interview_1.getWeather(testLocation)];
+                    return [4 /*yield*/, log_weather_time_1.getWeather(testLocation)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.a('string');
@@ -62,7 +62,7 @@ describe('getTime function', function () {
             switch (_a.label) {
                 case 0:
                     testLocation = 'New York';
-                    return [4 /*yield*/, invisible_interview_1.getTime(testLocation)];
+                    return [4 /*yield*/, log_weather_time_1.getTime(testLocation)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.a('string');
@@ -78,7 +78,7 @@ describe('getLatLong function', function () {
             switch (_a.label) {
                 case 0:
                     testLocation = 'Portland';
-                    return [4 /*yield*/, invisible_interview_1.getLatLong(testLocation)];
+                    return [4 /*yield*/, log_weather_time_1.getLatLong(testLocation)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.an('object').and.to.include.keys('lat', 'lng');
@@ -94,7 +94,7 @@ describe('returnFullTimeWeatherString function', function () {
             switch (_a.label) {
                 case 0:
                     testInput = 'Santa Monica';
-                    return [4 /*yield*/, invisible_interview_1.returnFullTimeWeatherString(testInput)];
+                    return [4 /*yield*/, log_weather_time_1.returnFullTimeWeatherString(testInput)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.a('string');
@@ -110,7 +110,7 @@ describe('logWeatherAndTime function', function () {
             switch (_a.label) {
                 case 0:
                     testInput = ['false', 'Santa Monica'];
-                    return [4 /*yield*/, invisible_interview_1.logWeatherAndTime(testInput)];
+                    return [4 /*yield*/, log_weather_time_1.logWeatherAndTime(testInput)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.an('array');
@@ -122,7 +122,7 @@ describe('logWeatherAndTime function', function () {
 describe('validateArguments function', function () {
     it('should not throw error with true or false as first argument', function () {
         var testLocation = ['false', 'New York'];
-        chai_1.expect(function () { invisible_interview_1.validateArguments(testLocation); }).to.not["throw"]();
+        chai_1.expect(function () { log_weather_time_1.validateArguments(testLocation); }).to.not["throw"]();
     });
     // expect.to.throw is having issues
     // it('should throw Error without true or false as first argument', () => {

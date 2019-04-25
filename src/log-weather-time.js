@@ -39,32 +39,10 @@ var axios_1 = require("axios");
 var _ = require("lodash");
 var moment = require("moment");
 var yargs_1 = require("yargs");
-var OWM_APPID = '253e1dbbf0342d7e278b02a28f23a002';
-var GOOGLE_API_KEY = 'AIzaSyDfuUQEUeXnZz2y12iSr0s-Pf-5uXQv3i0';
+// const OWM_APPID = '253e1dbbf0342d7e278b02a28f23a002'
+// const GOOGLE_API_KEY = 'AIzaSyDfuUQEUeXnZz2y12iSr0s-Pf-5uXQv3i0'
+var constants_1 = require("../config/constants");
 var debug = String(process.argv.slice(2, 3)).toLowerCase() === 'true' ? true : false;
-// handling Undhandled Promise Rejections here
-process.on('unhandledRejection', function (reason, p) {
-    console.log('Unhandled Rejection at: ', p, 'reason: ', reason);
-});
-// Below section is for running file directly using ts-node
-// uncomment last two commented lines: input from process.argv and logWeatherAndTime
-// example(from project root): `ts-node src/log-weather-time.ts false portland
-// 'new york' 90405 97239 'los angeles'`
-// sample inputs
-// const input = ['New York', 'Santa Barbara', 'Portland', 90405]
-// const input = ['New York', 10005, 'Tokyo', 'Sao', 'São Paulo', 'Pluto']
-// const input = ['New York']
-// const input = process.argv.slice(2)
-// logWeatherAndTime(input)
-if (debug) {
-    var input = process.argv.slice(2);
-    console.log('logging argv arguments');
-    process.argv.forEach(function (val, index) {
-        console.log(index + ": " + val);
-    });
-    console.log('logging input');
-    console.log(input);
-}
 function getWeather(location) {
     return __awaiter(this, void 0, void 0, function () {
         var res, error_1;
@@ -74,7 +52,7 @@ function getWeather(location) {
                     _a.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, axios_1["default"].get('http://api.openweathermap.org/data/2.5/weather', {
                             params: {
-                                APPID: OWM_APPID,
+                                APPID: constants_1.OWM_APPID,
                                 q: location
                             }
                         })];
@@ -104,7 +82,7 @@ function getLatLong(location) {
                     return [4 /*yield*/, axios_1["default"].get('https://maps.googleapis.com/maps/api/geocode/json', {
                             params: {
                                 address: location,
-                                key: GOOGLE_API_KEY
+                                key: constants_1.GOOGLE_API_KEY
                             }
                         })];
                 case 1:
@@ -137,7 +115,7 @@ function getTime(location) {
                     locationString = lat + ',' + lng;
                     return [4 /*yield*/, axios_1["default"].get('https://maps.googleapis.com/maps/api/timezone/json', {
                             params: {
-                                key: GOOGLE_API_KEY,
+                                key: constants_1.GOOGLE_API_KEY,
                                 location: locationString,
                                 timestamp: timestamp
                             }
@@ -269,3 +247,27 @@ function debugLogWeatherAndTime() {
     });
 }
 exports.debugLogWeatherAndTime = debugLogWeatherAndTime;
+// handling Undhandled Promise Rejections here
+process.on('unhandledRejection', function (reason, p) {
+    console.log('Unhandled Rejection at: ', p, 'reason: ', reason);
+});
+// Below section is for running file directly using ts-node
+// uncomment last two commented lines: input from process.argv and logWeatherAndTime
+// example(from project root): `ts-node src/log-weather-time.ts false portland
+// 'new york' 90405 97239 'los angeles'`
+// sample inputs
+// const input = ['New York', 'Santa Barbara', 'Portland', 90405]
+// const input = ['New York', 10005, 'Tokyo', 'Sao', 'São Paulo', 'Pluto']
+// const input = ['New York']
+// const input = process.argv.slice(2)
+// logWeatherAndTime(input)
+// logs inputs to inspect arguments
+if (debug) {
+    var input = process.argv.slice(2);
+    console.log('logging argv arguments');
+    process.argv.forEach(function (val, index) {
+        console.log(index + ": " + val);
+    });
+    console.log('logging input');
+    console.log(input);
+}

@@ -2,35 +2,8 @@ import axios from 'axios'
 import * as _ from 'lodash'
 import * as moment from 'moment'
 import { argv } from 'yargs'
-const OWM_APPID = '253e1dbbf0342d7e278b02a28f23a002'
-const GOOGLE_API_KEY = 'AIzaSyDfuUQEUeXnZz2y12iSr0s-Pf-5uXQv3i0'
+import { OWM_APPID, GOOGLE_API_KEY } from '../config/constants';
 let debug = String(process.argv.slice(2, 3)).toLowerCase() === 'true' ? true : false
-
-// handling Undhandled Promise Rejections here
-process.on('unhandledRejection', (reason, p) => {
-    console.log('Unhandled Rejection at: ', p, 'reason: ', reason)
-})
-
-// Below section is for running file directly using ts-node
-// uncomment last two commented lines: input from process.argv and logWeatherAndTime
-// example(from project root): `ts-node src/log-weather-time.ts false portland
-// 'new york' 90405 97239 'los angeles'`
-// sample inputs
-// const input = ['New York', 'Santa Barbara', 'Portland', 90405]
-// const input = ['New York', 10005, 'Tokyo', 'Sao', 'São Paulo', 'Pluto']
-// const input = ['New York']
-// const input = process.argv.slice(2)
-// logWeatherAndTime(input)
-
-if (debug) {
-  const input = process.argv.slice(2)
-  console.log('logging argv arguments')
-  process.argv.forEach((val, index) => {
-    console.log(`${index}: ${val}`)
-  })
-  console.log('logging input')
-  console.log(input)
-}
 
 export async function getWeather(location: string | number) {
   try {
@@ -139,4 +112,31 @@ export async function debugLogWeatherAndTime() {
   const locationArguments = _.get(argv, '_', 'pluto')
   const input = [].concat(firstArgument, locationArguments)
   logWeatherAndTime(input)
+}
+
+// handling Undhandled Promise Rejections here
+process.on('unhandledRejection', (reason, p) => {
+    console.log('Unhandled Rejection at: ', p, 'reason: ', reason)
+})
+
+// Below section is for running file directly using ts-node
+// uncomment last two commented lines: input from process.argv and logWeatherAndTime
+// example(from project root): `ts-node src/log-weather-time.ts false portland
+// 'new york' 90405 97239 'los angeles'`
+// sample inputs
+// const input = ['New York', 'Santa Barbara', 'Portland', 90405]
+// const input = ['New York', 10005, 'Tokyo', 'Sao', 'São Paulo', 'Pluto']
+// const input = ['New York']
+// const input = process.argv.slice(2)
+// logWeatherAndTime(input)
+
+// logs inputs to inspect arguments
+if (debug) {
+  const input = process.argv.slice(2)
+  console.log('logging argv arguments')
+  process.argv.forEach((val, index) => {
+    console.log(`${index}: ${val}`)
+  })
+  console.log('logging input')
+  console.log(input)
 }
