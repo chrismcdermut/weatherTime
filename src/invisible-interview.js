@@ -38,26 +38,30 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var _ = require("lodash");
 var moment = require("moment");
+var yargs_1 = require("yargs");
 var OWM_APPID = '253e1dbbf0342d7e278b02a28f23a002';
 var GOOGLE_API_KEY = 'AIzaSyDfuUQEUeXnZz2y12iSr0s-Pf-5uXQv3i0';
-var argv = require('yargs').argv;
 var debug = String(process.argv.slice(2, 3)).toLowerCase() === 'true' ? true : false;
-// viewing command line arguments
-if (debug) {
-    process.argv.forEach(function (val, index) {
-        console.log(index + ": " + val);
-    });
-}
 // handling Undhandled Promise Rejections here
 process.on('unhandledRejection', function (reason, p) {
-    console.log('Unhandled Rejection at:', p, 'reason:', reason);
+    console.log('Unhandled Rejection at: ', p, 'reason: ', reason);
 });
+// Below section is for running file directly using ts-node
+// uncomment last two commented lines: input from process.argv and logWeatherAndTime
+// example(from project root): `ts-node src/invisible-interview.ts false portland
+// 'new york' 90405 97239 'los angeles'`
 // sample inputs
 // const input = ['New York', 'Santa Barbara', 'Portland', 90405]
 // const input = ['New York', 10005, 'Tokyo', 'Sao', 'São Paulo', 'Pluto']
 // const input = ['New York']
-var input = process.argv.slice(2);
+// const input = process.argv.slice(2)
+// logWeatherAndTime(input)
 if (debug) {
+    var input = process.argv.slice(2);
+    console.log('logging argv arguments');
+    process.argv.forEach(function (val, index) {
+        console.log(index + ": " + val);
+    });
     console.log('logging input');
     console.log(input);
 }
@@ -159,22 +163,18 @@ function getTime(location) {
 }
 exports.getTime = getTime;
 function validateArguments(args) {
-    console.log('in vaidate argumetns');
-    console.log(args);
     try {
         var firstArgument = String(args.slice(0, 1)).toLowerCase();
         if (firstArgument !== 'false' && firstArgument !== 'true') {
             throw new Error('First method argument must be \'true\' or \'false\' for \
-      debug mode which expands logging and errors, first argument is:' + firstArgument);
+      debug mode which expands logging and errors, first argument is: ' + firstArgument);
         }
+        debug = firstArgument.toLowerCase() === 'true' ? true : false;
         var locations = args.slice(1);
-        // locations.forEach((f)=>{
-        //   if(location)
-        // })
         return locations;
     }
     catch (error) {
-        console.error('Error in validateArguments and the error is' + error);
+        console.error('Error in validateArguments and the error is ' + error);
         if (debug) {
             console.error(error);
         }
@@ -193,35 +193,40 @@ function returnFullTimeWeatherString(location) {
                 case 2:
                     weather = _a.sent();
                     timeWeatherString = "Current time is " + time + " in " + location + " and the weather is " + weather;
-                    console.log(timeWeatherString);
                     return [2 /*return*/, timeWeatherString];
             }
         });
     });
 }
 exports.returnFullTimeWeatherString = returnFullTimeWeatherString;
-function logWeatherAndTime(args) {
+function logWeatherAndTime(args, debugMode) {
+    if (debugMode === void 0) { debugMode = false; }
     return __awaiter(this, void 0, void 0, function () {
         var results, locations, error_4;
         var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    console.log('logging lkjblk');
-                    console.log(args);
                     results = [];
-                    locations = validateArguments(args);
+                    locations = debugMode ? validateArguments(args) : args;
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, Promise.all(locations.map(function (location) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0: return [4 /*yield*/, returnFullTimeWeatherString(location)];
-                                case 1: return [2 /*return*/, _a.sent()];
-                            }
-                        }); }); }))];
+                    return [4 /*yield*/, Promise.all(locations.map(function (location) { return __awaiter(_this, void 0, void 0, function () {
+                            var weatherTimeString;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, returnFullTimeWeatherString(location)];
+                                    case 1:
+                                        weatherTimeString = _a.sent();
+                                        console.log(weatherTimeString);
+                                        results.push(weatherTimeString);
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); }))];
                 case 2:
-                    results = _a.sent();
+                    _a.sent();
                     return [2 /*return*/, results];
                 case 3:
                     error_4 = _a.sent();
@@ -238,21 +243,27 @@ function logWeatherAndTime(args) {
 exports.logWeatherAndTime = logWeatherAndTime;
 function runLogWeatherAndTime() {
     return __awaiter(this, void 0, void 0, function () {
-        var input;
+        var firstArgument, locationArguments, input;
         return __generator(this, function (_a) {
-            console.log('argv');
-            console.log(argv);
-            console.log('argv[$0]');
-            console.log(argv['$0']);
-            console.log('argv[_]');
-            console.log(argv['_']);
-            input = [].concat(argv['$0'], argv['_']);
-            console.log('input');
-            console.log(input);
+            firstArgument = _.get(yargs_1.argv, '$0', 'false');
+            locationArguments = _.get(yargs_1.argv, '_', 'pluto');
+            input = [].concat(firstArgument, locationArguments);
             logWeatherAndTime(input);
             return [2 /*return*/];
         });
     });
 }
 exports.runLogWeatherAndTime = runLogWeatherAndTime;
-// logWeatherAndTime(input)
+function debugLogWeatherAndTime() {
+    return __awaiter(this, void 0, void 0, function () {
+        var firstArgument, locationArguments, input;
+        return __generator(this, function (_a) {
+            firstArgument = _.get(yargs_1.argv, '$0', 'saturn');
+            locationArguments = _.get(yargs_1.argv, '_', 'pluto');
+            input = [].concat(firstArgument, locationArguments);
+            logWeatherAndTime(input, true);
+            return [2 /*return*/];
+        });
+    });
+}
+exports.debugLogWeatherAndTime = debugLogWeatherAndTime;

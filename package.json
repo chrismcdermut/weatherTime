@@ -4,10 +4,11 @@
   "description": "Code sample for Invisible",
   "main": "app.js",
   "scripts": {
-    "test": "mocha -r ts-node/register ./*.spec.ts",
-    "logWeatherTime": "node -e 'require(\"./invisible-interview.js\").runLogWeatherAndTime()'",
-    "logWeatherTimeDuo": "node -e 'require(\"./invisible-interview.js\").logWeatherAndTime()'",
-    "logWeatherTimeTrio": "run-func ./invisible-interview.js logWeatherAndTime",
+    "test": "mocha -r ts-node/register ./src/*.spec.ts",
+    "logWeatherTime": "node -e 'require(\"./src/invisible-interview.js\").runLogWeatherAndTime()'",
+    "debugLogWeatherTime": "node -e 'require(\"./src/invisible-interview.js\").debugLogWeatherAndTime()'",
+    "logWeatherTimeDuo": "node -e 'require(\"./src/invisible-interview.js\").logWeatherAndTime()'",
+    "logWeatherTimeTrio": "run-func ./src/invisible-interview.js logWeatherAndTime"
   },
   "author": "chrismcdermut",
   "license": "ISC",

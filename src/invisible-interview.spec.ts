@@ -19,7 +19,7 @@ describe('Weather function', () => {
 
 })
 
-describe('Time function', () => {
+describe('getTime function', () => {
 
 it('should return time as string', async () => {
   const testLocation = 'New York'
@@ -29,12 +29,12 @@ it('should return time as string', async () => {
 
 })
 
-describe('LatLong function', () => {
+describe('getLatLong function', () => {
 
-it('should return latLong as an object', async () => {
+it('should return latLong as an object with lat, lng keys', async () => {
   const testLocation = 'Portland'
   const result = await getLatLong(testLocation)
-  expect(result).to.be.an('object')
+  expect(result).to.be.an('object').and.to.include.keys('lat', 'lng')
 })
 
 })
@@ -66,7 +66,7 @@ it('should not throw error with true or false as first argument', () => {
   expect(() => {validateArguments(testLocation)}).to.not.throw()
 })
 
-//expect.to.throw is having issues
+// expect.to.throw is having issues
 // it('should throw Error without true or false as first argument', () => {
 //   const testLocation = ['New York']
 //   console.log('LOGGING TYPE')
