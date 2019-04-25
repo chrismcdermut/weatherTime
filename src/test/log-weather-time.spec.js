@@ -38,17 +38,19 @@ var _this = this;
 exports.__esModule = true;
 var chai_1 = require("chai");
 require("mocha");
-var log_weather_time_1 = require("./log-weather-time");
-var open_weather_client_1 = require("./open-weather-client");
-var google_client_1 = require("./google-client");
+var google_client_1 = require("../client/google-client");
+var open_weather_client_1 = require("../client/open-weather-client");
+var validation_1 = require("../util/validation");
+var log_weather_time_1 = require("../log-weather-time");
 describe('Weather function', function () {
     it('should return weather as string', function () { return __awaiter(_this, void 0, void 0, function () {
-        var testLocation, result;
+        var testLocation, debug, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     testLocation = 'New York';
-                    return [4 /*yield*/, open_weather_client_1.openWeatherClient.getWeather(testLocation)];
+                    debug = false;
+                    return [4 /*yield*/, open_weather_client_1.openWeatherClient.getWeather(testLocation, debug)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.a('string');
@@ -59,12 +61,13 @@ describe('Weather function', function () {
 });
 describe('getTime function', function () {
     it('should return time as string', function () { return __awaiter(_this, void 0, void 0, function () {
-        var testLocation, result;
+        var testLocation, debug, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     testLocation = 'New York';
-                    return [4 /*yield*/, google_client_1.googleClient.getTime(testLocation)];
+                    debug = false;
+                    return [4 /*yield*/, google_client_1.googleClient.getTime(testLocation, debug)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.a('string');
@@ -75,12 +78,13 @@ describe('getTime function', function () {
 });
 describe('fetchCoordinates function', function () {
     it('should return latLong as an object with lat, lng keys', function () { return __awaiter(_this, void 0, void 0, function () {
-        var testLocation, result;
+        var testLocation, debug, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     testLocation = 'Portland';
-                    return [4 /*yield*/, google_client_1.googleClient.fetchCoordinates(testLocation)];
+                    debug = false;
+                    return [4 /*yield*/, google_client_1.googleClient.fetchCoordinates(testLocation, debug)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.an('object').and.to.include.keys('lat', 'lng');
@@ -105,33 +109,19 @@ describe('formTimeWeatherString function', function () {
         });
     }); });
 });
-describe('logWeatherAndTime function', function () {
-    it('should return log as an array', function () { return __awaiter(_this, void 0, void 0, function () {
-        var testInput, result;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    testInput = ['false', 'Santa Monica'];
-                    return [4 /*yield*/, log_weather_time_1.logWeatherAndTime(testInput)];
-                case 1:
-                    result = _a.sent();
-                    chai_1.expect(result).to.be.an('array');
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-});
+// describe('logWeatherAndTime function', () => {
+//
+// it('should return log as an array', async () => {
+//   const testInput = ['false', 'Santa Monica']
+//   const result = await logWeatherAndTime(testInput)
+//   expect(result).to.be.an('array')
+// })
+//
+// })
 describe('validateArguments function', function () {
     it('should not throw error with true or false as first argument', function () {
         var testLocation = ['false', 'New York'];
-        chai_1.expect(function () { log_weather_time_1.validateArguments(testLocation); }).to.not["throw"]();
+        var debug = false;
+        chai_1.expect(function () { validation_1.validateArguments(testLocation, debug); }).to.not["throw"]();
     });
-    // expect.to.throw is having issues
-    // it('should throw Error without true or false as first argument', () => {
-    //   const testLocation = ['New York']
-    //   console.log('LOGGING TYPE')
-    //   console.log(typeof validateArguments)
-    //   console.log(validateArguments)
-    //   expect(() => {validateArguments(testLocation)}).to.throw()
-    // })
 });

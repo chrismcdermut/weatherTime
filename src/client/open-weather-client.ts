@@ -1,6 +1,6 @@
 import axios from 'axios'
 import * as _ from 'lodash'
-import { OWM_AID, SUCCESS_CODE } from '../config/constants'
+import { OWM_AID, SUCCESS_CODE } from '../../config/constants'
 const openWeatherURL = 'http://api.openweathermap.org/data/2.5/weather'
 
 export const openWeatherClient = {

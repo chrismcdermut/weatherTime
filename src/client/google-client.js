@@ -40,7 +40,7 @@ var _ = require("lodash");
 var moment = require("moment");
 var geoCodeURL = 'https://maps.googleapis.com/maps/api/geocode/json';
 var timeURL = 'https://maps.googleapis.com/maps/api/timezone/json';
-var constants_1 = require("../config/constants");
+var constants_1 = require("../../config/constants");
 exports.googleClient = {
     fetchCoordinates: function (location, debug) {
         return __awaiter(this, void 0, void 0, function () {

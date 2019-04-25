@@ -4,7 +4,7 @@
   "description": "Code sample for Invisible",
   "main": "app.js",
   "scripts": {
-    "test": "mocha -r ts-node/register ./src/*.spec.ts",
+    "test": "mocha -r ts-node/register ./src/test/*.spec.ts",
     "logWeatherTime": "node -e 'require(\"./src/log-weather-time.js\").logWeatherAndTime(false)'",
     "debugWeatherTime": "node -e 'require(\"./src/log-weather-time.js\").logWeatherAndTime(true)'"
   },

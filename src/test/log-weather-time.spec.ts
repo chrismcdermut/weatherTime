@@ -1,18 +1,19 @@
 import { expect } from 'chai'
 import 'mocha'
-import {googleClient} from './google-client'
+import { googleClient } from '../client/google-client'
+import { openWeatherClient } from '../client/open-weather-client'
 import {
-  logWeatherAndTime,
   formTimeWeatherString,
-  validateArguments,
-} from './log-weather-time'
-import {openWeatherClient} from './open-weather-client'
+  logWeatherAndTime,
+} from '../log-weather-time'
+import { validateArguments } from '../util/validation'
 
 describe('Weather function', () => {
 
   it('should return weather as string', async () => {
     const testLocation = 'New York'
-    const result = await openWeatherClient.getWeather(testLocation)
+    const debug = false
+    const result = await openWeatherClient.getWeather(testLocation, debug)
     expect(result).to.be.a('string')
   })
 
@@ -22,7 +23,8 @@ describe('getTime function', () => {
 
 it('should return time as string', async () => {
   const testLocation = 'New York'
-  const result = await googleClient.getTime(testLocation)
+  const debug = false
+  const result = await googleClient.getTime(testLocation, debug)
   expect(result).to.be.a('string')
 })
 
@@ -32,7 +34,8 @@ describe('fetchCoordinates function', () => {
 
 it('should return latLong as an object with lat, lng keys', async () => {
   const testLocation = 'Portland'
-  const result = await googleClient.fetchCoordinates(testLocation)
+  const debug = false
+  const result = await googleClient.fetchCoordinates(testLocation, debug)
   expect(result).to.be.an('object').and.to.include.keys('lat', 'lng')
 })
 
@@ -48,30 +51,22 @@ it('should return a string', async () => {
 
 })
 
-describe('logWeatherAndTime function', () => {
-
-it('should return log as an array', async () => {
-  const testInput = ['false', 'Santa Monica']
-  const result = await logWeatherAndTime(testInput)
-  expect(result).to.be.an('array')
-})
-
-})
+// describe('logWeatherAndTime function', () => {
+//
+// it('should return log as an array', async () => {
+//   const testInput = ['false', 'Santa Monica']
+//   const result = await logWeatherAndTime(testInput)
+//   expect(result).to.be.an('array')
+// })
+//
+// })
 
 describe('validateArguments function', () => {
 
 it('should not throw error with true or false as first argument', () => {
   const testLocation = ['false', 'New York']
-  expect(() => {validateArguments(testLocation)}).to.not.throw()
+  const debug = false
+  expect(() => {validateArguments(testLocation, debug)}).to.not.throw()
 })
-
-// expect.to.throw is having issues
-// it('should throw Error without true or false as first argument', () => {
-//   const testLocation = ['New York']
-//   console.log('LOGGING TYPE')
-//   console.log(typeof validateArguments)
-//   console.log(validateArguments)
-//   expect(() => {validateArguments(testLocation)}).to.throw()
-// })
 
 })

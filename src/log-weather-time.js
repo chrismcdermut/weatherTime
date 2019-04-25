@@ -37,18 +37,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var yargs_1 = require("yargs");
 var _ = require("lodash");
-var google_client_js_1 = require("./google-client.js");
-var open_weather_client_js_1 = require("./open-weather-client.js");
+var google_client_js_1 = require("./client/google-client.js");
+var open_weather_client_js_1 = require("./client/open-weather-client.js");
 var debug = String(process.argv.slice(2, 3)).toLowerCase() === 'true' ? true : false;
 function formTimeWeatherString(location) {
     return __awaiter(this, void 0, void 0, function () {
         var time, weather, timeWeatherString;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    console.log('debug');
-                    console.log(debug);
-                    return [4 /*yield*/, google_client_js_1.googleClient.getTime(location, debug)];
+                case 0: return [4 /*yield*/, google_client_js_1.googleClient.getTime(location, debug)];
                 case 1:
                     time = _a.sent();
                     return [4 /*yield*/, open_weather_client_js_1.openWeatherClient.getWeather(location, debug)];
@@ -73,8 +70,6 @@ function logWeatherAndTime(debugMode) {
                     firstArgument = _.get(yargs_1.argv, '$0', 'false');
                     locationArguments = _.get(yargs_1.argv, '_', 'pluto');
                     locations = [].concat(firstArgument, locationArguments);
-                    console.log('debugMode');
-                    console.log(debugMode);
                     debug = debugMode;
                     _a.label = 1;
                 case 1:
@@ -108,7 +103,7 @@ function logWeatherAndTime(debugMode) {
     });
 }
 exports.logWeatherAndTime = logWeatherAndTime;
-// handling Undhandled Promise Rejections here
+// Undhandled Promise Rejections caught here
 process.on('unhandledRejection', function (reason, p) {
     console.log('Unhandled Rejection at: ', p, 'reason: ', reason);
 });
