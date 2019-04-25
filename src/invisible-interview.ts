@@ -86,6 +86,7 @@ export async function getTime(location: string | number) {
  }
 }
 
+// @deprecated!! but can keep if we want debug flag
 export function validateArguments(args: Array<string | number>) {
   try {
     const firstArgument: string = String(args.slice(0, 1)).toLowerCase()
@@ -109,9 +110,8 @@ export async function returnFullTimeWeatherString(location: string | number) {
     return timeWeatherString
   }
 
-export async function logWeatherAndTime(args: Array<string | number>, debugMode: boolean = false) {
+export async function logWeatherAndTime(locations: Array<string | number>) {
   const results = []
-  const locations = debugMode ? validateArguments(args) : args
   try {
     await Promise.all(locations.map(async (location) => {
       const weatherTimeString = await returnFullTimeWeatherString(location)
@@ -125,16 +125,18 @@ export async function logWeatherAndTime(args: Array<string | number>, debugMode:
   }
 }
 
-export async function runLogWeatherAndTime() {
+export async function runLogWeatherAndTime(debugMode: boolean = false) {
   const firstArgument = _.get(argv, '$0', 'false')
   const locationArguments = _.get(argv, '_', 'pluto')
-  const input = [].concat(firstArgument, locationArguments)
-  logWeatherAndTime(input)
+  const parameters = [].concat(firstArgument, locationArguments)
+  debug = debugMode
+  logWeatherAndTime(parameters)
 }
 
+// @deprecated!! but can keep if we want debug flag
 export async function debugLogWeatherAndTime() {
   const firstArgument = _.get(argv, '$0', 'saturn')
   const locationArguments = _.get(argv, '_', 'pluto')
   const input = [].concat(firstArgument, locationArguments)
-  logWeatherAndTime(input, true)
+  logWeatherAndTime(input)
 }

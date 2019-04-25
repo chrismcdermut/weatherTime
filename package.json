@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha -r ts-node/register ./src/*.spec.ts",
     "logWeatherTime": "node -e 'require(\"./src/invisible-interview.js\").runLogWeatherAndTime()'",
+    "debugWeatherTime": "node -e 'require(\"./src/invisible-interview.js\").runLogWeatherAndTime(true)'",
     "debugLogWeatherTime": "node -e 'require(\"./src/invisible-interview.js\").debugLogWeatherAndTime()'",
     "logWeatherTimeDuo": "node -e 'require(\"./src/invisible-interview.js\").logWeatherAndTime()'",
     "logWeatherTimeTrio": "run-func ./src/invisible-interview.js logWeatherAndTime"

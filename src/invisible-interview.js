@@ -162,6 +162,7 @@ function getTime(location) {
     });
 }
 exports.getTime = getTime;
+// @deprecated!! but can keep if we want debug flag
 function validateArguments(args) {
     try {
         var firstArgument = String(args.slice(0, 1)).toLowerCase();
@@ -199,16 +200,14 @@ function returnFullTimeWeatherString(location) {
     });
 }
 exports.returnFullTimeWeatherString = returnFullTimeWeatherString;
-function logWeatherAndTime(args, debugMode) {
-    if (debugMode === void 0) { debugMode = false; }
+function logWeatherAndTime(locations) {
     return __awaiter(this, void 0, void 0, function () {
-        var results, locations, error_4;
+        var results, error_4;
         var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     results = [];
-                    locations = debugMode ? validateArguments(args) : args;
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -241,19 +240,22 @@ function logWeatherAndTime(args, debugMode) {
     });
 }
 exports.logWeatherAndTime = logWeatherAndTime;
-function runLogWeatherAndTime() {
+function runLogWeatherAndTime(debugMode) {
+    if (debugMode === void 0) { debugMode = false; }
     return __awaiter(this, void 0, void 0, function () {
-        var firstArgument, locationArguments, input;
+        var firstArgument, locationArguments, parameters;
         return __generator(this, function (_a) {
             firstArgument = _.get(yargs_1.argv, '$0', 'false');
             locationArguments = _.get(yargs_1.argv, '_', 'pluto');
-            input = [].concat(firstArgument, locationArguments);
-            logWeatherAndTime(input);
+            parameters = [].concat(firstArgument, locationArguments);
+            debug = debugMode;
+            logWeatherAndTime(parameters);
             return [2 /*return*/];
         });
     });
 }
 exports.runLogWeatherAndTime = runLogWeatherAndTime;
+// @deprecated!! but can keep if we want debug flag
 function debugLogWeatherAndTime() {
     return __awaiter(this, void 0, void 0, function () {
         var firstArgument, locationArguments, input;
@@ -261,7 +263,7 @@ function debugLogWeatherAndTime() {
             firstArgument = _.get(yargs_1.argv, '$0', 'saturn');
             locationArguments = _.get(yargs_1.argv, '_', 'pluto');
             input = [].concat(firstArgument, locationArguments);
-            logWeatherAndTime(input, true);
+            logWeatherAndTime(input);
             return [2 /*return*/];
         });
     });
