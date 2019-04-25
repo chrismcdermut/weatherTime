@@ -39,6 +39,8 @@ exports.__esModule = true;
 var chai_1 = require("chai");
 require("mocha");
 var log_weather_time_1 = require("./log-weather-time");
+var open_weather_client_1 = require("./open-weather-client");
+var google_client_1 = require("./google-client");
 describe('Weather function', function () {
     it('should return weather as string', function () { return __awaiter(_this, void 0, void 0, function () {
         var testLocation, result;
@@ -46,7 +48,7 @@ describe('Weather function', function () {
             switch (_a.label) {
                 case 0:
                     testLocation = 'New York';
-                    return [4 /*yield*/, log_weather_time_1.getWeather(testLocation)];
+                    return [4 /*yield*/, open_weather_client_1.openWeatherClient.getWeather(testLocation)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.a('string');
@@ -62,7 +64,7 @@ describe('getTime function', function () {
             switch (_a.label) {
                 case 0:
                     testLocation = 'New York';
-                    return [4 /*yield*/, log_weather_time_1.getTime(testLocation)];
+                    return [4 /*yield*/, google_client_1.googleClient.getTime(testLocation)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.a('string');
@@ -71,14 +73,14 @@ describe('getTime function', function () {
         });
     }); });
 });
-describe('getLatLong function', function () {
+describe('fetchCoordinates function', function () {
     it('should return latLong as an object with lat, lng keys', function () { return __awaiter(_this, void 0, void 0, function () {
         var testLocation, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     testLocation = 'Portland';
-                    return [4 /*yield*/, log_weather_time_1.getLatLong(testLocation)];
+                    return [4 /*yield*/, google_client_1.googleClient.fetchCoordinates(testLocation)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.an('object').and.to.include.keys('lat', 'lng');
@@ -87,14 +89,14 @@ describe('getLatLong function', function () {
         });
     }); });
 });
-describe('returnFullTimeWeatherString function', function () {
+describe('formTimeWeatherString function', function () {
     it('should return a string', function () { return __awaiter(_this, void 0, void 0, function () {
         var testInput, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     testInput = 'Santa Monica';
-                    return [4 /*yield*/, log_weather_time_1.returnFullTimeWeatherString(testInput)];
+                    return [4 /*yield*/, log_weather_time_1.formTimeWeatherString(testInput)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.a('string');

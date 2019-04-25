@@ -1,93 +1,25 @@
-import axios from 'axios'
-import * as _ from 'lodash'
-import * as moment from 'moment'
 import { argv } from 'yargs'
-import { G_A_K, OWM_AID } from '../config/constants'
+import * as _ from 'lodash'
+import { googleClient } from './google-client.js'
+import { openWeatherClient } from './open-weather-client.js'
 let debug = String(process.argv.slice(2, 3)).toLowerCase() === 'true' ? true : false
 
-export async function getWeather(location: string | number) {
-  try {
-      const res = await axios.get('http://api.openweathermap.org/data/2.5/weather', {
-        params: {
-          APPID: OWM_AID,
-          q: location,
-        },
-      })
-      return _.get(res, 'data.weather[0].description', 'undetermined')
- } catch (error) {
-    console.error(`Error in getWeather for ${location} and the error is` + error)
-    if (debug) { console.error(error) }
- }
-}
-
-export async function getLatLong(location: string | number) {
-  try {
-        const res = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-        params: {
-          address: location,
-          key: G_A_K,
-        },
-      })
-        return _.get(res, 'data.results[0].geometry.location', 'undetermined')
- } catch (error) {
-    console.error(`Error in getLatLong for ${location} and the error is` + error)
-    if (debug) { console.error(error) }
- }
-}
-
-export async function getTime(location: string | number) {
-  try {
-    const timestamp = moment().unix()
-    const {lat, lng} = await getLatLong(location)
-    const locationString: string = lat + ',' + lng
-    const res = await axios.get('https://maps.googleapis.com/maps/api/timezone/json', {
-      params: {
-        key: G_A_K,
-        location: locationString,
-        timestamp,
-      },
-      })
-    const dstOffset = _.get(res, 'res.data.dstOffset', 0)
-    const rawOffset = _.get(res, 'res.data.rawOffset', 0)
-    const offsets = dstOffset * 1000 + rawOffset * 1000
-    const localDate = new Date(timestamp * 1000 + offsets)
-
-    return localDate.toLocaleString()
- } catch (error) {
-    console.error('Error in getTime' + error)
-    if (debug) { console.error(error) }
- }
-}
-
-// @deprecated!! but can keep if we want debug flag
-export function validateArguments(args: Array<string | number>) {
-  try {
-    const firstArgument: string = String(args.slice(0, 1)).toLowerCase()
-    if (firstArgument !== 'false' && firstArgument !== 'true') {
-      throw new Error('First method argument must be \'true\' or \'false\' for \
-      debug mode which expands logging and errors, first argument is: ' + firstArgument)
-    }
-    debug = firstArgument.toLowerCase() === 'true' ? true : false
-    const locations = args.slice(1)
-    return locations
-  } catch (error) {
-    console.error('Error in validateArguments and the error is ' + error)
-    if (debug) { console.error(error) }
-  }
-}
-
-export async function returnFullTimeWeatherString(location: string | number) {
-    const time = await getTime(location)
-    const weather = await getWeather(location)
+export async function formTimeWeatherString(location: string | number) {
+    const time = await googleClient.getTime(location, debug)
+    const weather = await openWeatherClient.getWeather(location, debug)
     const timeWeatherString = `Current time is ${time} in ${location} and the weather is ${weather}`
     return timeWeatherString
   }
 
-export async function logWeatherAndTime(locations: Array<string | number>) {
+export async function logWeatherAndTime(debugMode: boolean = false) {
   const results = []
+  const firstArgument = _.get(argv, '$0', 'false')
+  const locationArguments = _.get(argv, '_', 'pluto')
+  const locations = [].concat(firstArgument, locationArguments)
+  debug = debugMode
   try {
     await Promise.all(locations.map(async (location) => {
-      const weatherTimeString = await returnFullTimeWeatherString(location)
+      const weatherTimeString = await formTimeWeatherString(location)
       console.log(weatherTimeString)
       results.push(weatherTimeString)
     }))
@@ -98,23 +30,7 @@ export async function logWeatherAndTime(locations: Array<string | number>) {
   }
 }
 
-export async function runLogWeatherAndTime(debugMode: boolean = false) {
-  const firstArgument = _.get(argv, '$0', 'false')
-  const locationArguments = _.get(argv, '_', 'pluto')
-  const parameters = [].concat(firstArgument, locationArguments)
-  debug = debugMode
-  logWeatherAndTime(parameters)
-}
-
-// @deprecated!! but can keep if we want debug flag
-export async function debugLogWeatherAndTime() {
-  const firstArgument = _.get(argv, '$0', 'saturn')
-  const locationArguments = _.get(argv, '_', 'pluto')
-  const input = [].concat(firstArgument, locationArguments)
-  logWeatherAndTime(input)
-}
-
-// handling Undhandled Promise Rejections here
+// Undhandled Promise Rejections caught here
 process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: ', p, 'reason: ', reason)
 })
@@ -123,20 +39,6 @@ process.on('unhandledRejection', (reason, p) => {
 // uncomment last two commented lines: input from process.argv and logWeatherAndTime
 // example(from project root): `ts-node src/log-weather-time.ts false portland
 // 'new york' 90405 97239 'los angeles'`
-// sample inputs
-// const input = ['New York', 'Santa Barbara', 'Portland', 90405]
 // const input = ['New York', 10005, 'Tokyo', 'Sao', 'São Paulo', 'Pluto']
-// const input = ['New York']
 // const input = process.argv.slice(2)
 // logWeatherAndTime(input)
-
-// logs inputs to inspect arguments
-if (debug) {
-  const input = process.argv.slice(2)
-  console.log('logging argv arguments')
-  process.argv.forEach((val, index) => {
-    console.log(`${index}: ${val}`)
-  })
-  console.log('logging input')
-  console.log(input)
-}

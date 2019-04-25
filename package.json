@@ -5,11 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha -r ts-node/register ./src/*.spec.ts",
-    "logWeatherTime": "node -e 'require(\"./src/log-weather-time.js\").runLogWeatherAndTime()'",
-    "debugWeatherTime": "node -e 'require(\"./src/log-weather-time.js\").runLogWeatherAndTime(true)'",
-    "debugLogWeatherTime": "node -e 'require(\"./src/log-weather-time.js\").debugLogWeatherAndTime()'",
-    "logWeatherTimeDuo": "node -e 'require(\"./src/log-weather-time.js\").logWeatherAndTime()'",
-    "logWeatherTimeTrio": "run-func ./src/log-weather-time.js logWeatherAndTime"
+    "logWeatherTime": "node -e 'require(\"./src/log-weather-time.js\").logWeatherAndTime(false)'",
+    "debugWeatherTime": "node -e 'require(\"./src/log-weather-time.js\").logWeatherAndTime(true)'"
   },
   "author": "chrismcdermut",
   "license": "ISC",

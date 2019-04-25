@@ -35,138 +35,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var axios_1 = require("axios");
-var _ = require("lodash");
-var moment = require("moment");
 var yargs_1 = require("yargs");
-var constants_1 = require("../config/constants");
+var _ = require("lodash");
+var google_client_js_1 = require("./google-client.js");
+var open_weather_client_js_1 = require("./open-weather-client.js");
 var debug = String(process.argv.slice(2, 3)).toLowerCase() === 'true' ? true : false;
-function getWeather(location) {
-    return __awaiter(this, void 0, void 0, function () {
-        var res, error_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get('http://api.openweathermap.org/data/2.5/weather', {
-                            params: {
-                                APPID: constants_1.OWM_AID,
-                                q: location
-                            }
-                        })];
-                case 1:
-                    res = _a.sent();
-                    return [2 /*return*/, _.get(res, 'data.weather[0].description', 'undetermined')];
-                case 2:
-                    error_1 = _a.sent();
-                    console.error("Error in getWeather for " + location + " and the error is" + error_1);
-                    if (debug) {
-                        console.error(error_1);
-                    }
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
-    });
-}
-exports.getWeather = getWeather;
-function getLatLong(location) {
-    return __awaiter(this, void 0, void 0, function () {
-        var res, error_2;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get('https://maps.googleapis.com/maps/api/geocode/json', {
-                            params: {
-                                address: location,
-                                key: constants_1.G_A_K
-                            }
-                        })];
-                case 1:
-                    res = _a.sent();
-                    return [2 /*return*/, _.get(res, 'data.results[0].geometry.location', 'undetermined')];
-                case 2:
-                    error_2 = _a.sent();
-                    console.error("Error in getLatLong for " + location + " and the error is" + error_2);
-                    if (debug) {
-                        console.error(error_2);
-                    }
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
-    });
-}
-exports.getLatLong = getLatLong;
-function getTime(location) {
-    return __awaiter(this, void 0, void 0, function () {
-        var timestamp, _a, lat, lng, locationString, res, dstOffset, rawOffset, offsets, localDate, error_3;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 3, , 4]);
-                    timestamp = moment().unix();
-                    return [4 /*yield*/, getLatLong(location)];
-                case 1:
-                    _a = _b.sent(), lat = _a.lat, lng = _a.lng;
-                    locationString = lat + ',' + lng;
-                    return [4 /*yield*/, axios_1["default"].get('https://maps.googleapis.com/maps/api/timezone/json', {
-                            params: {
-                                key: constants_1.G_A_K,
-                                location: locationString,
-                                timestamp: timestamp
-                            }
-                        })];
-                case 2:
-                    res = _b.sent();
-                    dstOffset = _.get(res, 'res.data.dstOffset', 0);
-                    rawOffset = _.get(res, 'res.data.rawOffset', 0);
-                    offsets = dstOffset * 1000 + rawOffset * 1000;
-                    localDate = new Date(timestamp * 1000 + offsets);
-                    return [2 /*return*/, localDate.toLocaleString()];
-                case 3:
-                    error_3 = _b.sent();
-                    console.error('Error in getTime' + error_3);
-                    if (debug) {
-                        console.error(error_3);
-                    }
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
-            }
-        });
-    });
-}
-exports.getTime = getTime;
-// @deprecated!! but can keep if we want debug flag
-function validateArguments(args) {
-    try {
-        var firstArgument = String(args.slice(0, 1)).toLowerCase();
-        if (firstArgument !== 'false' && firstArgument !== 'true') {
-            throw new Error('First method argument must be \'true\' or \'false\' for \
-      debug mode which expands logging and errors, first argument is: ' + firstArgument);
-        }
-        debug = firstArgument.toLowerCase() === 'true' ? true : false;
-        var locations = args.slice(1);
-        return locations;
-    }
-    catch (error) {
-        console.error('Error in validateArguments and the error is ' + error);
-        if (debug) {
-            console.error(error);
-        }
-    }
-}
-exports.validateArguments = validateArguments;
-function returnFullTimeWeatherString(location) {
+function formTimeWeatherString(location) {
     return __awaiter(this, void 0, void 0, function () {
         var time, weather, timeWeatherString;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, getTime(location)];
+                case 0:
+                    console.log('debug');
+                    console.log(debug);
+                    return [4 /*yield*/, google_client_js_1.googleClient.getTime(location, debug)];
                 case 1:
                     time = _a.sent();
-                    return [4 /*yield*/, getWeather(location)];
+                    return [4 /*yield*/, open_weather_client_js_1.openWeatherClient.getWeather(location, debug)];
                 case 2:
                     weather = _a.sent();
                     timeWeatherString = "Current time is " + time + " in " + location + " and the weather is " + weather;
@@ -175,15 +60,22 @@ function returnFullTimeWeatherString(location) {
         });
     });
 }
-exports.returnFullTimeWeatherString = returnFullTimeWeatherString;
-function logWeatherAndTime(locations) {
+exports.formTimeWeatherString = formTimeWeatherString;
+function logWeatherAndTime(debugMode) {
+    if (debugMode === void 0) { debugMode = false; }
     return __awaiter(this, void 0, void 0, function () {
-        var results, error_4;
+        var results, firstArgument, locationArguments, locations, error_1;
         var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     results = [];
+                    firstArgument = _.get(yargs_1.argv, '$0', 'false');
+                    locationArguments = _.get(yargs_1.argv, '_', 'pluto');
+                    locations = [].concat(firstArgument, locationArguments);
+                    console.log('debugMode');
+                    console.log(debugMode);
+                    debug = debugMode;
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -191,7 +83,7 @@ function logWeatherAndTime(locations) {
                             var weatherTimeString;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
-                                    case 0: return [4 /*yield*/, returnFullTimeWeatherString(location)];
+                                    case 0: return [4 /*yield*/, formTimeWeatherString(location)];
                                     case 1:
                                         weatherTimeString = _a.sent();
                                         console.log(weatherTimeString);
@@ -204,10 +96,10 @@ function logWeatherAndTime(locations) {
                     _a.sent();
                     return [2 /*return*/, results];
                 case 3:
-                    error_4 = _a.sent();
-                    console.error('Error in logWeatherAndTime and the error is' + error_4);
+                    error_1 = _a.sent();
+                    console.error('Error in logWeatherAndTime and the error is' + error_1);
                     if (debug) {
-                        console.error(error_4);
+                        console.error(error_1);
                     }
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
@@ -216,35 +108,6 @@ function logWeatherAndTime(locations) {
     });
 }
 exports.logWeatherAndTime = logWeatherAndTime;
-function runLogWeatherAndTime(debugMode) {
-    if (debugMode === void 0) { debugMode = false; }
-    return __awaiter(this, void 0, void 0, function () {
-        var firstArgument, locationArguments, parameters;
-        return __generator(this, function (_a) {
-            firstArgument = _.get(yargs_1.argv, '$0', 'false');
-            locationArguments = _.get(yargs_1.argv, '_', 'pluto');
-            parameters = [].concat(firstArgument, locationArguments);
-            debug = debugMode;
-            logWeatherAndTime(parameters);
-            return [2 /*return*/];
-        });
-    });
-}
-exports.runLogWeatherAndTime = runLogWeatherAndTime;
-// @deprecated!! but can keep if we want debug flag
-function debugLogWeatherAndTime() {
-    return __awaiter(this, void 0, void 0, function () {
-        var firstArgument, locationArguments, input;
-        return __generator(this, function (_a) {
-            firstArgument = _.get(yargs_1.argv, '$0', 'saturn');
-            locationArguments = _.get(yargs_1.argv, '_', 'pluto');
-            input = [].concat(firstArgument, locationArguments);
-            logWeatherAndTime(input);
-            return [2 /*return*/];
-        });
-    });
-}
-exports.debugLogWeatherAndTime = debugLogWeatherAndTime;
 // handling Undhandled Promise Rejections here
 process.on('unhandledRejection', function (reason, p) {
     console.log('Unhandled Rejection at: ', p, 'reason: ', reason);
@@ -253,19 +116,6 @@ process.on('unhandledRejection', function (reason, p) {
 // uncomment last two commented lines: input from process.argv and logWeatherAndTime
 // example(from project root): `ts-node src/log-weather-time.ts false portland
 // 'new york' 90405 97239 'los angeles'`
-// sample inputs
-// const input = ['New York', 'Santa Barbara', 'Portland', 90405]
 // const input = ['New York', 10005, 'Tokyo', 'Sao', 'São Paulo', 'Pluto']
-// const input = ['New York']
 // const input = process.argv.slice(2)
 // logWeatherAndTime(input)
-// logs inputs to inspect arguments
-if (debug) {
-    var input = process.argv.slice(2);
-    console.log('logging argv arguments');
-    process.argv.forEach(function (val, index) {
-        console.log(index + ": " + val);
-    });
-    console.log('logging input');
-    console.log(input);
-}

@@ -1,19 +1,18 @@
 import { expect } from 'chai'
 import 'mocha'
+import {googleClient} from './google-client'
 import {
-  getLatLong,
-  getTime,
-  getWeather,
   logWeatherAndTime,
-  returnFullTimeWeatherString,
+  formTimeWeatherString,
   validateArguments,
 } from './log-weather-time'
+import {openWeatherClient} from './open-weather-client'
 
 describe('Weather function', () => {
 
   it('should return weather as string', async () => {
     const testLocation = 'New York'
-    const result = await getWeather(testLocation)
+    const result = await openWeatherClient.getWeather(testLocation)
     expect(result).to.be.a('string')
   })
 
@@ -23,27 +22,27 @@ describe('getTime function', () => {
 
 it('should return time as string', async () => {
   const testLocation = 'New York'
-  const result = await getTime(testLocation)
+  const result = await googleClient.getTime(testLocation)
   expect(result).to.be.a('string')
 })
 
 })
 
-describe('getLatLong function', () => {
+describe('fetchCoordinates function', () => {
 
 it('should return latLong as an object with lat, lng keys', async () => {
   const testLocation = 'Portland'
-  const result = await getLatLong(testLocation)
+  const result = await googleClient.fetchCoordinates(testLocation)
   expect(result).to.be.an('object').and.to.include.keys('lat', 'lng')
 })
 
 })
 
-describe('returnFullTimeWeatherString function', () => {
+describe('formTimeWeatherString function', () => {
 
 it('should return a string', async () => {
   const testInput = 'Santa Monica'
-  const result = await returnFullTimeWeatherString(testInput)
+  const result = await formTimeWeatherString(testInput)
   expect(result).to.be.a('string')
 })
 
