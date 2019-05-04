@@ -2,16 +2,18 @@
   "name": "invisibleinterview",
   "version": "1.0.0",
   "description": "Code sample for Invisible",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "mocha -r ts-node/register ./src/test/*.spec.ts",
-    "logWeatherTime": "node -e 'require(\"./src/log-weather-time.js\").logWeatherAndTime(false)'",
-    "debugWeatherTime": "node -e 'require(\"./src/log-weather-time.js\").logWeatherAndTime(true)'"
+    "logWeatherTime": "node -e 'require(\"./src/lib/log-weather-time.js\").logWeatherAndTime(false)'",
+    "debugWeatherTime": "node -e 'require(\"./src/lib/log-weather-time.js\").logWeatherAndTime(true)'"
   },
   "author": "chrismcdermut",
   "license": "ISC",
   "dependencies": {
+    "@types/lodash": "^4.14.123",
     "@types/node": "^11.13.5",
+    "@types/yargs": "^13.0.0",
     "axios": "^0.18.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",

@@ -37,8 +37,8 @@ export const googleClient = {
      if (res.status !== SUCCESS_CODE) {
          throw new Error('Error from getTime for location ' + location + ' Error is ' + res.status)
        } else {
-         const dstOffset = _.get(res, 'res.data.dstOffset', 0)
-         const rawOffset = _.get(res, 'res.data.rawOffset', 0)
+         const dstOffset = _.get(res, 'data.dstOffset', 0)
+         const rawOffset = _.get(res, 'data.rawOffset', 0)
          const offsets = dstOffset * 1000 + rawOffset * 1000
          const localDate = new Date(timestamp * 1000 + offsets)
          return localDate.toLocaleString()

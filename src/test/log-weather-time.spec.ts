@@ -5,7 +5,7 @@ import { openWeatherClient } from '../client/open-weather-client'
 import {
   formTimeWeatherString,
   logWeatherAndTime,
-} from '../log-weather-time'
+} from '../lib/log-weather-time'
 import { validateArguments } from '../util/validation'
 
 describe('Weather function', () => {

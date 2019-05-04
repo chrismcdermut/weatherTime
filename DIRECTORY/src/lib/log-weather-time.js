@@ -35,24 +35,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var yargs_1 = require("yargs");
 var _ = require("lodash");
-var google_client_js_1 = require("./client/google-client.js");
-var open_weather_client_js_1 = require("./client/open-weather-client.js");
+var yargs_1 = require("yargs");
+var google_client_js_1 = require("../client/google-client.js");
+var open_weather_client_js_1 = require("../client/open-weather-client.js");
 var debug = String(process.argv.slice(2, 3)).toLowerCase() === 'true' ? true : false;
 function formTimeWeatherString(location) {
     return __awaiter(this, void 0, void 0, function () {
         var time, weather, timeWeatherString;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, google_client_js_1.googleClient.getTime(location, debug)];
+                case 0: return [4, google_client_js_1.googleClient.getTime(location, debug)];
                 case 1:
                     time = _a.sent();
-                    return [4 /*yield*/, open_weather_client_js_1.openWeatherClient.getWeather(location, debug)];
+                    return [4, open_weather_client_js_1.openWeatherClient.getWeather(location, debug)];
                 case 2:
                     weather = _a.sent();
                     timeWeatherString = "Current time is " + time + " in " + location + " and the weather is " + weather;
-                    return [2 /*return*/, timeWeatherString];
+                    return [2, timeWeatherString];
             }
         });
     });
@@ -74,43 +74,36 @@ function logWeatherAndTime(debugMode) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, Promise.all(locations.map(function (location) { return __awaiter(_this, void 0, void 0, function () {
+                    return [4, Promise.all(locations.map(function (location) { return __awaiter(_this, void 0, void 0, function () {
                             var weatherTimeString;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
-                                    case 0: return [4 /*yield*/, formTimeWeatherString(location)];
+                                    case 0: return [4, formTimeWeatherString(location)];
                                     case 1:
                                         weatherTimeString = _a.sent();
                                         console.log(weatherTimeString);
                                         results.push(weatherTimeString);
-                                        return [2 /*return*/];
+                                        return [2];
                                 }
                             });
                         }); }))];
                 case 2:
                     _a.sent();
-                    return [2 /*return*/, results];
+                    return [2, results];
                 case 3:
                     error_1 = _a.sent();
                     console.error('Error in logWeatherAndTime and the error is' + error_1);
                     if (debug) {
                         console.error(error_1);
                     }
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    return [3, 4];
+                case 4: return [2];
             }
         });
     });
 }
 exports.logWeatherAndTime = logWeatherAndTime;
-// Undhandled Promise Rejections caught here
 process.on('unhandledRejection', function (reason, p) {
     console.log('Unhandled Rejection at: ', p, 'reason: ', reason);
 });
-// Below section is for running file directly using ts-node
-// uncomment last two commented lines: input from process.argv and logWeatherAndTime
-// example(from project root): `ts-node src/log-weather-time.ts false portland
-// 'new york' 90405 97239 'los angeles'`
-// const input = ['New York', 10005, 'Tokyo', 'Sao', 'São Paulo', 'Pluto']
-// const input = process.argv.slice(2)
-// logWeatherAndTime(input)
+//# sourceMappingURL=log-weather-time.js.map

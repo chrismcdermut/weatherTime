@@ -55,24 +55,24 @@ exports.googleClient = {
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, axios_1["default"].get(geoCodeURL, { params: params })];
+                        return [4, axios_1["default"].get(geoCodeURL, { params: params })];
                     case 2:
                         res = _a.sent();
                         if (res.status !== constants_1.SUCCESS_CODE) {
                             throw new Error('Error from Google maps for location ' + location + '. Status: ' + res.status);
                         }
                         else {
-                            return [2 /*return*/, _.get(res, 'data.results[0].geometry.location', 'undetermined')];
+                            return [2, _.get(res, 'data.results[0].geometry.location', 'undetermined')];
                         }
-                        return [3 /*break*/, 4];
+                        return [3, 4];
                     case 3:
                         error_1 = _a.sent();
                         console.error("Error in getLatLong for " + location + " and the error is" + error_1);
                         if (debug) {
                             console.error(error_1);
                         }
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        return [3, 4];
+                    case 4: return [2];
                 }
             });
         });
@@ -85,7 +85,7 @@ exports.googleClient = {
                     case 0:
                         _b.trys.push([0, 3, , 4]);
                         timestamp = moment().unix();
-                        return [4 /*yield*/, this.fetchCoordinates(location)];
+                        return [4, this.fetchCoordinates(location)];
                     case 1:
                         _a = _b.sent(), lat = _a.lat, lng = _a.lng;
                         locationString = lat + ',' + lng;
@@ -94,30 +94,31 @@ exports.googleClient = {
                             location: locationString,
                             timestamp: timestamp
                         };
-                        return [4 /*yield*/, axios_1["default"].get(timeURL, { params: params })];
+                        return [4, axios_1["default"].get(timeURL, { params: params })];
                     case 2:
                         res = _b.sent();
                         if (res.status !== constants_1.SUCCESS_CODE) {
                             throw new Error('Error from getTime for location ' + location + ' Error is ' + res.status);
                         }
                         else {
-                            dstOffset = _.get(res, 'res.data.dstOffset', 0);
-                            rawOffset = _.get(res, 'res.data.rawOffset', 0);
+                            dstOffset = _.get(res, 'data.dstOffset', 0);
+                            rawOffset = _.get(res, 'data.rawOffset', 0);
                             offsets = dstOffset * 1000 + rawOffset * 1000;
                             localDate = new Date(timestamp * 1000 + offsets);
-                            return [2 /*return*/, localDate.toLocaleString()];
+                            return [2, localDate.toLocaleString()];
                         }
-                        return [3 /*break*/, 4];
+                        return [3, 4];
                     case 3:
                         error_2 = _b.sent();
                         console.error('Error in getTime' + error_2);
                         if (debug) {
                             console.error(error_2);
                         }
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        return [3, 4];
+                    case 4: return [2];
                 }
             });
         });
     }
 };
+//# sourceMappingURL=google-client.js.map

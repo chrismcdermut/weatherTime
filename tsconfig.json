@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": false,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true
+    },
+    "files": [
+        "src/client/google-client.ts",
+        "src/client/open-weather-client.ts",
+        "src/lib/log-weather-time.ts",
+        "src/test/log-weather-time.spec.ts",
+        "src/util/validation.ts",
+    ],
+    "compilerOptions": {
+        "outDir": "DIRECTORY"
+    }
+}

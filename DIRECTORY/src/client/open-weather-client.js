@@ -51,23 +51,24 @@ exports.openWeatherClient = {
                             APPID: constants_1.OWM_AID,
                             q: location
                         };
-                        return [4 /*yield*/, axios_1["default"].get(openWeatherURL, { params: params })];
+                        return [4, axios_1["default"].get(openWeatherURL, { params: params })];
                     case 1:
                         res = _a.sent();
                         if (res.status !== constants_1.SUCCESS_CODE) {
                             throw new Error('Error from Open Weather for location ' + location + '. Status: ' + res.status);
                         }
-                        return [2 /*return*/, _.get(res, 'data.weather[0].description', 'undetermined')];
+                        return [2, _.get(res, 'data.weather[0].description', 'undetermined')];
                     case 2:
                         error_1 = _a.sent();
                         console.error("Error in getWeather for " + location + " and the error is" + error_1);
                         if (debug) {
                             console.error(error_1);
                         }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3, 3];
+                    case 3: return [2];
                 }
             });
         });
     }
 };
+//# sourceMappingURL=open-weather-client.js.map

@@ -1,6 +1,5 @@
 "use strict";
 exports.__esModule = true;
-// @deprecated!! but can keep if we want debug flag
 function validateArguments(args, debug) {
     try {
         var firstArgument = String(args.slice(0, 1)).toLowerCase();
@@ -19,3 +18,4 @@ function validateArguments(args, debug) {
     }
 }
 exports.validateArguments = validateArguments;
+//# sourceMappingURL=validation.js.map

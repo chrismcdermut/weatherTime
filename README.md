@@ -1,11 +1,11 @@
 # GetWeatherAndTime
 
-  GetWeatherAndTime is a typescript method to retrieve the current weather and time for each location in an array { of } geographies
+  GetWeatherAndTime is a typescript method to retrieve the current weather and time for each location in an array of geographies
 
 ## Installation
 
 ```bash
-npm install -g typescript\n
+npm install -g typescript
 npm install -g ts-node
 npm install
 ```
@@ -14,12 +14,12 @@ npm install
 
   To run the method with arguments using npm
 ```bash
-npm run logWeatherTime -- portland 90405 'New York' 'Sao Paolo' 'Lisbon'
+npm run logWeatherTime -- portland 90405 'New York' 'Tokyo' 'Lisbon' 'Portland' 'Santa Barbara' 'Santa Monica' 'Nashville' 'San luis obispo' 'bali' 'jakarta' 'singapore' 'vientianne' 'kyoto' 'shanghai'
 
 npm run debugWeatherTime -- portlsdafand 90405 'New York' 'Sao Paolo' 'Lidddsbon'
 ```
 
-  To run method by calling file directly, you will need to uncomment lines in log - weather - time.ts
+  To run method by calling file directly, you will need to uncomment lines in log-weather-time.ts
 ```bash
 ts-node log-weather-time.ts false portland 'new york' 90405 97239 'los angeles'
 ```
@@ -31,27 +31,35 @@ npm run test
 
   To lint file
 ```bash
-tslint src/log-weather-time.ts --fix
+tslint src/lib/log-weather-time.ts --fix
 
-tslint src/log-weather-time.spec.ts --fix
+tslint src/test/log-weather-time.spec.ts --fix
+
+tslint src/client/google-client.ts --fix
+
+tslint src/client/open-weather-client.ts --fix
 ```
 
 ## Making changes
   Each time you make a change to the typescript file, you must run a command to generate an associated js file
 ```bash
-tsc log-weather-time.ts
+tsc src/lib/log-weather-time.ts
 
-tsc log-weather-time.spec.ts
+tsc src/test/log-weather-time.spec.ts
+
+tsc src/client/google-client.ts
+
+tsc src/client/open-weather-client.ts
 ```
 
 ## Resources
-  https: // www.typescriptlang.org/docs/tutorial.html
-https: // www.makeareadme.com/
-https: // www.chaijs.com/api/bdd/
-https: // palantir.github.io/tslint/rules/
-https: // openweathermap.org/api
-https: // developers.google.com/maps/documentation/timezone/intro
-https: // developers.google.com/maps/documentation/geocoding/intro
+https://www.typescriptlang.org/docs/tutorial.html
+https://www.makeareadme.com/
+https://www.chaijs.com/api/bdd/
+https://palantir.github.io/tslint/rules/
+https://openweathermap.org/api
+https://developers.google.com/maps/documentation/timezone/intro
+https://developers.google.com/maps/documentation/geocoding/intro
 
 ## Contributing
   Welcome to receive any review of best practices:
@@ -65,7 +73,7 @@ https: // developers.google.com/maps/documentation/geocoding/intro
 
 ## Areas of Improvement
 - Could add more tests, specifically one that checks for console out
-- Need to { take } API keys out into their own file and ideally make secret / salted / hashed
+- Need to take API keys out into their own file and ideally make secret / salted / hashed
 - Add commitizen to make commits prettier
 - Make linter run automatically on save
 

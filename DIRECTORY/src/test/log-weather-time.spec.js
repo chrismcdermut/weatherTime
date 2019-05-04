@@ -40,8 +40,8 @@ var chai_1 = require("chai");
 require("mocha");
 var google_client_1 = require("../client/google-client");
 var open_weather_client_1 = require("../client/open-weather-client");
+var log_weather_time_1 = require("../lib/log-weather-time");
 var validation_1 = require("../util/validation");
-var log_weather_time_1 = require("../log-weather-time");
 describe('Weather function', function () {
     it('should return weather as string', function () { return __awaiter(_this, void 0, void 0, function () {
         var testLocation, debug, result;
@@ -50,11 +50,11 @@ describe('Weather function', function () {
                 case 0:
                     testLocation = 'New York';
                     debug = false;
-                    return [4 /*yield*/, open_weather_client_1.openWeatherClient.getWeather(testLocation, debug)];
+                    return [4, open_weather_client_1.openWeatherClient.getWeather(testLocation, debug)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.a('string');
-                    return [2 /*return*/];
+                    return [2];
             }
         });
     }); });
@@ -67,11 +67,11 @@ describe('getTime function', function () {
                 case 0:
                     testLocation = 'New York';
                     debug = false;
-                    return [4 /*yield*/, google_client_1.googleClient.getTime(testLocation, debug)];
+                    return [4, google_client_1.googleClient.getTime(testLocation, debug)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.a('string');
-                    return [2 /*return*/];
+                    return [2];
             }
         });
     }); });
@@ -84,11 +84,11 @@ describe('fetchCoordinates function', function () {
                 case 0:
                     testLocation = 'Portland';
                     debug = false;
-                    return [4 /*yield*/, google_client_1.googleClient.fetchCoordinates(testLocation, debug)];
+                    return [4, google_client_1.googleClient.fetchCoordinates(testLocation, debug)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.an('object').and.to.include.keys('lat', 'lng');
-                    return [2 /*return*/];
+                    return [2];
             }
         });
     }); });
@@ -100,24 +100,15 @@ describe('formTimeWeatherString function', function () {
             switch (_a.label) {
                 case 0:
                     testInput = 'Santa Monica';
-                    return [4 /*yield*/, log_weather_time_1.formTimeWeatherString(testInput)];
+                    return [4, log_weather_time_1.formTimeWeatherString(testInput)];
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.a('string');
-                    return [2 /*return*/];
+                    return [2];
             }
         });
     }); });
 });
-// describe('logWeatherAndTime function', () => {
-//
-// it('should return log as an array', async () => {
-//   const testInput = ['false', 'Santa Monica']
-//   const result = await logWeatherAndTime(testInput)
-//   expect(result).to.be.an('array')
-// })
-//
-// })
 describe('validateArguments function', function () {
     it('should not throw error with true or false as first argument', function () {
         var testLocation = ['false', 'New York'];
@@ -125,3 +116,4 @@ describe('validateArguments function', function () {
         chai_1.expect(function () { validation_1.validateArguments(testLocation, debug); }).to.not["throw"]();
     });
 });
+//# sourceMappingURL=log-weather-time.spec.js.map

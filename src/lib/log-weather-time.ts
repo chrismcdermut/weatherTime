@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 import { argv } from 'yargs'
-import { googleClient } from './client/google-client.js'
-import { openWeatherClient } from './client/open-weather-client.js'
+import { googleClient } from '../client/google-client.js'
+import { openWeatherClient } from '../client/open-weather-client.js'
 let debug = String(process.argv.slice(2, 3)).toLowerCase() === 'true' ? true : false
 
 export async function formTimeWeatherString(location: string | number) {
