@@ -74,6 +74,7 @@ https://developers.google.com/maps/documentation/geocoding/intro
 ## Areas of Improvement
 - Could add more tests, specifically one that checks for console out
 - Need to take API keys out into their own file and ideally make secret / salted / hashed
+- Need to add return types for client functions
 - Add commitizen to make commits prettier
 - Make linter run automatically on save
 
