@@ -38,8 +38,8 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var _ = require("lodash");
 var moment = require("moment");
-var geoCodeURL = 'https://maps.googleapis.com/maps/api/geocode/json';
-var timeURL = 'https://maps.googleapis.com/maps/api/timezone/json';
+var GEO_CODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json';
+var TIME_URL = 'https://maps.googleapis.com/maps/api/timezone/json';
 var constants_1 = require("../../config/constants");
 exports.googleClient = {
     fetchCoordinates: function (location, debug) {
@@ -55,7 +55,7 @@ exports.googleClient = {
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, axios_1["default"].get(geoCodeURL, { params: params })];
+                        return [4 /*yield*/, axios_1["default"].get(GEO_CODE_URL, { params: params })];
                     case 2:
                         res = _a.sent();
                         if (res.status !== constants_1.SUCCESS_CODE) {
@@ -79,12 +79,13 @@ exports.googleClient = {
     },
     getTime: function (location, debug) {
         return __awaiter(this, void 0, void 0, function () {
-            var timestamp, _a, lat, lng, locationString, params, res, dstOffset, rawOffset, offsets, localDate, error_2;
+            var timestamp, timestampformat, _a, lat, lng, locationString, params, res, dstOffset, rawOffset, offsets, localDate, error_2;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 3, , 4]);
                         timestamp = moment().unix();
+                        timestampformat = moment().format();
                         return [4 /*yield*/, this.fetchCoordinates(location)];
                     case 1:
                         _a = _b.sent(), lat = _a.lat, lng = _a.lng;
@@ -94,7 +95,7 @@ exports.googleClient = {
                             location: locationString,
                             timestamp: timestamp
                         };
-                        return [4 /*yield*/, axios_1["default"].get(timeURL, { params: params })];
+                        return [4 /*yield*/, axios_1["default"].get(TIME_URL, { params: params })];
                     case 2:
                         res = _b.sent();
                         if (res.status !== constants_1.SUCCESS_CODE) {
@@ -105,7 +106,7 @@ exports.googleClient = {
                             rawOffset = _.get(res, 'data.rawOffset', 0);
                             offsets = dstOffset * 1000 + rawOffset * 1000;
                             localDate = new Date(timestamp * 1000 + offsets);
-                            return [2 /*return*/, localDate.toLocaleString()];
+                            return [2 /*return*/, localDate.toLocaleString('en-US', { timeZone: 'UTC' })];
                         }
                         return [3 /*break*/, 4];
                     case 3:
