@@ -28,6 +28,15 @@ it('should return time as string', async () => {
   expect(result).to.be.a('string')
 })
 
+it('should return Los Angeles and San Francisco time as the same', async () => {
+  const testLocationLAPST = 'Los Angeles'
+  const testLocationSFPST = 'San Francisco'
+  const debug = false
+  const resultLAPST = await googleClient.getTime(testLocationLAPST, debug)
+  const resultSFPST = await googleClient.getTime(testLocationSFPST, debug)
+  expect(resultLAPST).to.equal(resultSFPST)
+})
+
 })
 
 describe('fetchCoordinates function', () => {
@@ -51,16 +60,6 @@ it('should return a string', async () => {
 
 })
 
-// describe('logWeatherAndTime function', () => {
-//
-// it('should return log as an array', async () => {
-//   const testInput = ['false', 'Santa Monica']
-//   const result = await logWeatherAndTime(testInput)
-//   expect(result).to.be.an('array')
-// })
-//
-// })
-
 describe('validateArguments function', () => {
 
 it('should not throw error with true or false as first argument', () => {
@@ -70,3 +69,13 @@ it('should not throw error with true or false as first argument', () => {
 })
 
 })
+
+// describe('logWeatherAndTime function', () => {
+//
+// it('should return log as an array', async () => {
+//   const testInput = ['false', 'Santa Monica']
+//   const result = await logWeatherAndTime(testInput)
+//   expect(result).to.be.an('array')
+// })
+//
+// })

@@ -38,8 +38,8 @@ var _this = this;
 exports.__esModule = true;
 var chai_1 = require("chai");
 require("mocha");
-var google_client_1 = require("../../DIRECTORY/src/client/google-client");
-var open_weather_client_1 = require("../../DIRECTORY/src/client/open-weather-client");
+var google_client_1 = require("../client/google-client");
+var open_weather_client_1 = require("../client/open-weather-client");
 var log_weather_time_1 = require("../lib/log-weather-time");
 var validation_1 = require("../util/validation");
 describe('Weather function', function () {
@@ -71,6 +71,25 @@ describe('getTime function', function () {
                 case 1:
                     result = _a.sent();
                     chai_1.expect(result).to.be.a('string');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('should return Los Angeles and San Francisco time as the same', function () { return __awaiter(_this, void 0, void 0, function () {
+        var testLocationLAPST, testLocationSFPST, debug, resultLAPST, resultSFPST;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    testLocationLAPST = 'Los Angeles';
+                    testLocationSFPST = 'San Francisco';
+                    debug = false;
+                    return [4 /*yield*/, google_client_1.googleClient.getTime(testLocationLAPST, debug)];
+                case 1:
+                    resultLAPST = _a.sent();
+                    return [4 /*yield*/, google_client_1.googleClient.getTime(testLocationSFPST, debug)];
+                case 2:
+                    resultSFPST = _a.sent();
+                    chai_1.expect(resultLAPST).to.equal(resultSFPST);
                     return [2 /*return*/];
             }
         });
@@ -109,6 +128,13 @@ describe('formTimeWeatherString function', function () {
         });
     }); });
 });
+describe('validateArguments function', function () {
+    it('should not throw error with true or false as first argument', function () {
+        var testLocation = ['false', 'New York'];
+        var debug = false;
+        chai_1.expect(function () { validation_1.validateArguments(testLocation, debug); }).to.not["throw"]();
+    });
+});
 // describe('logWeatherAndTime function', () => {
 //
 // it('should return log as an array', async () => {
@@ -118,10 +144,3 @@ describe('formTimeWeatherString function', function () {
 // })
 //
 // })
-describe('validateArguments function', function () {
-    it('should not throw error with true or false as first argument', function () {
-        var testLocation = ['false', 'New York'];
-        var debug = false;
-        chai_1.expect(function () { validation_1.validateArguments(testLocation, debug); }).to.not["throw"]();
-    });
-});
