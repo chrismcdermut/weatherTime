@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha -r ts-node/register ./src/test/*.spec.ts",
     "logWeatherTime": "node -e 'require(\"./src/lib/log-weather-time.js\").logWeatherAndTime(false)'",
-    "debugWeatherTime": "node -e 'require(\"./src/lib/log-weather-time.js\").logWeatherAndTime(true)'"
+    "debugWeatherTime": "node -e 'require(\"./src/lib/log-weather-time.js\").logWeatherAndTime(true)'",
+    "getGitInfo": "node -e 'require(\"./src/lib/octokit.js\").fetchGitInfo()'"
   },
   "author": "chrismcdermut",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "yargs": "^13.2.2"
   },
   "devDependencies": {
+    "@octokit/rest": "^16.28.1",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
     "@types/moment-timezone": "^0.5.12",
