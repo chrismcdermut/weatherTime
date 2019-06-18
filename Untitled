@@ -1,0 +1,84 @@
+/**
+ * Pair:
+ * For a given GitHub org name:
+ * Fetch the last 3 updated repos
+ * For each repo:
+ * Fetch 5 latest open pull-requests
+ * For each PR:
+ * Fetch all commit messages
+
+ * repo-name
+ * PR #1334:
+ *   commit 1
+ *   commit 2
+ *   commit 1
+ * repo-name2
+ * PR #13:
+ *   commit 1
+ *   commit 2
+ *   commit 1
+ */
+
+const Octokit = require('@octokit/rest')
+const octokit = Octokit({})
+const OCTOKIT_USERNAME='octokit'
+
+let latestUpdatedOctokitRepos
+let latestOpenPRs;
+let allCommitMessages;
+
+//update yes
+//page 1
+//per page 3
+
+Promise.all([octokit.repos.listForUser({
+  username: OCTOKIT_USERNAME,
+  sort: 'updated',
+  per_page: 3,
+  page: 1
+}).then ((res)=>{
+   console.log('logging res');
+   console.log(res)
+   octokitRepos = res.data;
+   return res.data;
+ })]).then((repos)=>{
+   repos.forEach(repo=> {
+    octokit.pulls.list({
+      owner,
+      repo,
+      per_page
+    })
+ })
+
+//  Promise.all([])
+
+
+
+ then((repos)={
+   repos.forEach(repo=> {
+   octokit.pulls.list({
+    owner,
+    repo
+  })
+ })
+
+
+
+
+   octokit.pulls.list({
+    owner,
+    repo
+  })
+ })
+
+ octokitRepos.forEach(repo=> {
+   octokit.pulls.list({
+    owner,
+    repo
+  })
+ })
+
+//  octokit.pulls.list({
+//   owner,
+//   repo
+// })
