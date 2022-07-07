@@ -17,7 +17,7 @@
     "@types/yargs": "^13.0.0",
     "axios": "^0.18.0",
     "lodash": "^4.17.11",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "yargs": "^13.2.2"
   },
   "devDependencies": {
